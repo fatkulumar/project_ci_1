@@ -5,21 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <div style="position: absolute"; >
+            <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Registrasi</h4>
+        </div>
+            <a class="btn btn-primary float-right rounded-pill" href="<?= base_url('admin/v_t_registrasi') ?>">Tambah Registrasi</a></div>
+        <div class="card-body">
     
-    <h1 style="font-size: 52px; font-weight: bold; line-height: 0.7em"><?= $page ?></h1>
-    <a class="btn btn-primary" href="<?= base_url('admin/v_t_registrasi') ?>">Tambah <?= $page ?></a>
-    <table class="table table-striped">
+    <table id="myTable" class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
                 <th>NIK</th>
                 <th>NIP</th>
+                <th>Karyawan</th>
                 <th>Nama</th>
                 <th>Tempat, Tanggal Lahir</th>
                 <th>Username</th>
                 <th>Password</th>
                 <th>Aksi</th>
             </tr>
+        </thead>
+        <tbody>
             <?php
                 $no = 0;
                 foreach ($registrasi as $reg):
@@ -29,6 +38,7 @@
                 <td><?= $no ?></td>
                 <td><?= $reg->nik ?></td>
                 <td><?= $reg->nip ?></td>
+                <td><?= $reg->nama_karyawan ?></td>
                 <td><?= $reg->nama ?></td>
                 <td><?= $reg->ttl ?></td>
                 <td><?= $reg->username ?></td>
@@ -38,8 +48,25 @@
                 </td>
             </tr>
             <?php endforeach ?>
-        </thead>
+        </bcmod>
     </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<script>
+
+$(document).ready( function () {
+    $('#myTable').DataTable({
+        // "proccessing" : true,
+        // "serverSide" : true,
+        // "ajax" : '<?= base_url('admin/registrasi') ?>'
+    })
+} );
+    
+
+</script>
     
 </body>
 </html>

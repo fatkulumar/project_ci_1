@@ -8,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <script src="<?= base_url() ?>/assets/jquery.js"></script>
+  <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
+  <link rel="stylesheet" href="<?= base_url() ?>/assets/datatables/media/css/jquery.dataTables.min.css">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?= base_url() ?>/assets/adminlte/plugins/fontawesome-free/css/all.min.css">
@@ -29,6 +31,7 @@
   <link rel="stylesheet" href="<?= base_url() ?>/assets/adminlte/plugins/summernote/summernote-bs4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -59,24 +62,50 @@
         </div>
       </div>
     </form>
-
+<!-- 
     <ul class="navbar-nav">
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="<?= base_url('login/logout') ?>" class="nav-link">Logout</a>
-      </li>
-    </ul>
+     
+    </ul> -->
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-          <i class="fas fa-th-large"></i>
-        </a>
+      
+      <?php $count=$this->db->query("select count(*) as haha from tb_task")->row_array(); ?>
+      <?php if($level_admin = $this->session->userdata("level") == 1):?>
+        <?php 
+          $jml_task = count($task); 
+          if($jml_task > 1):
+          ?>
+            <li class="mr-3">
+              <a href='<?= base_url('admin/konfir_baca/1') ?>'>
+              <i class="fas fa-bell"></i><?php echo count($task) ?>
+            </a>
+          <?php else: ?>
+            <li class="mr-3">
+              <div  class="fas fa-bell">
+                <p style="color: black"><?php echo count($task) ?></b>
+              </div>
+          <?php endif ?>
+      <?php elseif($level_admin = $this->session->userdata("level") == 0): ?>
+        <li class="mr-3"><a href='<?= base_url('admin/task') ?>'><i class="fas fa-bell"></i><?=$count['haha']?></a></li> 
+      <?php endif ?>
+
+      <li>
+        <div class="dropdown mr-5">
+          <a class="fas fa-cog dropdown-toggle mr-5"  id="dropDownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+          <div class="dropdown-menu" aria-labelledby="dropDownButton">
+            <a href="<?= base_url('login/logout') ?>" class="dropdown-item">Logout</a>
+          </div>
+        </div>
       </li>
+
     </ul>
+
   </nav>
+  
+
+  
+
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
@@ -96,7 +125,7 @@
           <img src="<?= base_url() ?>/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block"><?= $this->session->userdata("nama") ?></a>
         </div>
       </div>
 
@@ -115,6 +144,27 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="<?= base_url('admin/karyawan') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Karyawan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= base_url('admin/divisi') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Divisi</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="<?= base_url('admin/pekerjaan') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pekerjaan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
                 <!-- <a href="<?= base_url('admin/registrasi') ?>" class="nav-link active"> -->
                 <a href="<?= base_url('admin/registrasi') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -127,28 +177,28 @@
                   <p>Jabatan</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="<?= base_url('admin/divisi') ?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Divisi</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= base_url('admin/pekerjaan') ?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Pekerjaan</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="<?= base_url('admin/task') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Task</p>
+                  <p>Task </p>
+                  <?php if($level_admin = $this->session->userdata("level") == 1):?>
+                      <span class='badge badge-danger navbar-badge'><?php echo count($task) ?></span>
+                  <?php elseif($level_admin = $this->session->userdata("level") == 0): ?>
+                    <span class='badge badge-danger navbar-badge'><?=$count['haha']?></span>
+                  <?php endif ?>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="<?= base_url('admin/sts_kawin') ?>" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Status Kawin</p>
+                </a>
+              </li> -->
+              <li class="nav-item">
+                <a href="<?= base_url('admin/sts_pekerjaan') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Status Pekerjaan</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -182,6 +232,7 @@
 
     <!-- Main content -->
     <section class="content">
+
       <?php
         if($page == "Jabatan"){
           $jabatan = $jabatan;
@@ -194,18 +245,15 @@
         }elseif($page == "v_t_divisi"){
           $this->load->view("v_t_divisi");
         }elseif($page == "v_e_divisi"){
-          $divisi = $divisi;
-          $this->load->view("v_e_divisi", $divisi);
+          $this->load->view("v_e_divisi");
         }elseif($page == "v_t_jabatan"){
-          $id_divisi = $id_divisi;
           $this->load->view("v_t_jabatan");
         }elseif($page == "Registrasi"){
           $this->load->view("v_registrasi");
         }elseif($page == "v_t_registrasi"){
           $this->load->view("v_t_registrasi");
         }elseif($page == "v_e_registrasi"){
-          $registrasi = $registrasi; 
-          $this->load->view("v_e_registrasi", $registrasi);
+          $this->load->view("v_e_registrasi");
         }elseif($page == "pekerjaan"){
           $this->load->view("v_pekerjaan");
         }elseif($page == "pekerjaan"){
@@ -232,14 +280,36 @@
           $this->load->view("v_t_sts_kawin");
         }elseif($page == "v_e_sts_kawin"){
           $this->load->view("v_e_sts_kawin");
+        }elseif($page == "sts_pekerjaan"){
+          $this->load->view("v_sts_pekerjaan");
+        }elseif($page == "v_t_sts_pekerjaan"){
+          $this->load->view("v_t_sts_pekerjaan");
+        }elseif($page == "v_e_sts_pekerjaan"){
+          $this->load->view("v_e_sts_pekerjaan");
+        }elseif($page == "karyawan"){
+          $this->load->view("v_karyawan");
+        }elseif($page == "v_t_karyawan"){
+          $this->load->view("v_t_karyawan");
+        }elseif($page == "v_e_karyawan"){
+          $this->load->view("v_e_karyawan");
         }elseif($page == "home"){
           echo "tidak ada yang dikirim";
         }
       ?>
-      <br>
-<?= $this->session->userdata("status") ?>
 
+      <!-- <br>
+      level : <?= $this->session->userdata('level'); ?>
+      <br>
       
+      <?php
+        $id_login = $this->session->userdata('id_login');
+        foreach ($id_login as $id) {
+          echo "id_login " . $id->id_registrasi;
+        }
+      ?> -->
+
+    
+
       <!-- disini kontennya -->
     </section>
     <!-- /.content -->
@@ -291,9 +361,9 @@
 <script src="<?= base_url() ?>/assets/adminlte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?= base_url() ?>/assets/adminlte/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?= base_url() ?>/assets/adminlte/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?= base_url() ?>/assets/adminlte/dist/js/demo.js"></script>
+
+<!-- <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
+<script src="<?= base_url() ?>/assets/datatables/media/js/jquery.dataTables.min.js"></script>
+<!--<script src="<?= base_url() ?>/assets/datatables/media/js/dataTables.bootstrap.min.js"></script>-->
 </body>
 </html>

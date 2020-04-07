@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <div style="position: absolute"; >
+            <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Tambah Pekerjaan</h4>
+        </div>
+        <br><br>
+    <div class="card-body">
     
-    <h1 style="font-size: 52px; font-weight: bold">Tambah Pekerjaan</h1>
     <form action="<?= base_url("admin/t_pekerjaan")?>" method="POST">
         <div class="form-group">
             <label for="pekerjaan">Pekerjaan</label>
@@ -15,8 +23,8 @@
         <div class="form-group">
             <select class="form-control" name="status" id="status">
                 <option value="">-Pilih Status-</option>
-                <?php foreach($status as $sta): ?>\
-                    <option value="<?= $sta->status ?>"><?= $sta->nama_status ?></option>
+                <?php foreach($status as $sta): ?>
+                    <option value="<?= $sta->id_status ?>"><?= $sta->nama_status ?></option>
                 <?php endforeach ?>
             </select>
         </div>
@@ -24,6 +32,10 @@
             <button class="btn btn-primary" type="submit" name="t_pekerjaan">Tambah Pekerjaan</button>
         </div>
     </form>
+
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

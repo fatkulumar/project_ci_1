@@ -5,25 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <div style="position: absolute"; >
+            <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Tambah Jabatan</h4>
+        </div>
+        <br><br>
+    <div class="card-body">
     
-    <h1 style="font-size: 52px; font-weight: bold">Tambah Jabatan</h1>
     <form action="<?= base_url("admin/t_jabatan")?>" method="POST">
         <div class="form-group">
             <label for="jabatan">Nama Jabatan</label>
             <input class="form-control" type="text" name="jabatan"  required>
         </div>
-        <div class="form-group">
-            <select class="form-control" name="id_divisi" id="id_divisi" required>
-                <option value="">-Pilih Divisi-</option>
-                <?php foreach($id_divisi as $id):?>
-                    <option value="<?= $id->id_divisi ?>"><?= $id->divisi ?></option>
+
+        <!-- <div class="form-group">
+            <select class="form-control" name="id_karyawan" id="id_karyawan" required>
+                <option value="">-Pilih Karyawan-</option>
+                <?php foreach($id_karyawan as $id_karyawan):?>
+                    <option value="<?= $id_karyawan->id_karyawan ?>"><?= $id_karyawan->nama_karyawan ?></option>
                 <?php endforeach ?>
             </select>
-        </div>
+        </div> -->
+        
         <div>
             <button class="btn btn-primary" type="submit" name="t_jabatan">Tambah Jabatan</button>
         </div>
     </form>
+
+        </div>
+    </div>
+</div>
+</div>
 
 </body>
 </html>

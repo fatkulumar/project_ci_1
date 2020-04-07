@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <div style="position: absolute"; >
+            <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Tambah Registrasi</h4>
+        </div>
+        <br><br>
+    <div class="card-body">
     
-    <h1 style="font-size: 52px; font-weight: bold">Tambah Registrasi</h1>
     <form action="<?= base_url('admin/t_registrasi')?>" method="POST">
         <div class="form-group">
             <label for="nip">NIP</label>
@@ -21,7 +29,7 @@
             <select class="form-control" name="id_karyawan" id="id_karyawan">
                 <option value="">-Pilih Karyawan-</option>
                 <?php foreach($karyawan as $kar ): ?>
-                    <option value="<?= $kar->id_karyawan ?>"><?= $kar->nama_karyawan ?></option>
+                    <option value="<?= $kar->id_karyawa ?>"><?= $kar->nama_karyawan ?></option>
                 <?php endforeach ?>
             </select>
         </div>
@@ -46,6 +54,11 @@
         </div>
     </form>
 
+        </div>
+    </div>
+</div>
+</div>
+
     <script>
 
         $(document).ready(function(){
@@ -62,7 +75,7 @@
                     success : function(data){
                         var html = ""
                         for(i =0; i<data.length; i++){
-                            html += data[i].nama
+                            html += data[i].nama_karyawan
                         }
                         $("#nama").val(html)
                     }

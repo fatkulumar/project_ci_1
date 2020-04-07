@@ -5,8 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+        <div style="position: absolute"; >
+            <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Edit Status Kawin</h4>
+        </div>
+        <br><br>
+        <div class="card-body">
     
-    <h1 style="font-size: 52px; font-weight: bold">Edit Status Kawin</h1>
     <?php foreach($sts_kawin as $kwn): ?>
     <form action="<?= base_url('admin/e_sts_kawin') ?>" method="POST">
         <input type="hidden" name="id_sts_kawin" id="id_sts_kawin" value="<?= $kwn->id_sts_kawin ?>">
@@ -19,6 +27,10 @@
         </div>
     </form>
     <?php endforeach ?>
+        </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

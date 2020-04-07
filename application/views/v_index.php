@@ -1,3 +1,10 @@
+<?php 
+	$ses = $this->session->userdata("status");
+	if($ses == "login") {
+		redirect('admin/index');
+	}
+	
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

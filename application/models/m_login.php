@@ -5,5 +5,10 @@
         {
             return $this->db->get_where($table,$where);
         }
+
+        function id_ses_log($table, $where)
+        {
+            return $this->db->get_where($table,$where);
+        }
     }
 ?>

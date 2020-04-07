@@ -23,12 +23,20 @@
                 'password' =>$password
             );
 
-            $cek = $this->m_login->cek_login("tb_login", $where)->num_rows();
+            $id_register = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->result();
+            // $cek = $this->m_login->cek_login("tb_login", $where)->num_rows();
+            $cek = $this->m_login->cek_login("tb_registrasi", $where)->result();
+            foreach($cek as $ce){
+                $data["level"] = $ce->level;
+            }
             if($cek){
                 $data_session = array(
                     'nama' => $username,
-                    'status' => "login"
+                    'status' => "login",
+                    'id_login' => $id_register,
+                    'level' => $data["level"]
                 );
+                
                 $this->session->set_userdata($data_session);
                 redirect(base_url("admin"));
             }else{

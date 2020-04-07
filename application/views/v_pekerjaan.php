@@ -6,9 +6,19 @@
 </head>
 <body>
     
-    <h1 style="font-size: 52px; font-weight: bold; line-height: 0.7em">Pekerjaan</h1>
-    <a class="btn btn-primary" href="<?= base_url('admin/v_t_pekerjaan') ?>">Tambah Pekerjaan</a>
-    <table class="table table-striped">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <div style="position: absolute"; >
+                <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Pekerjaan</h4>
+            </div>
+            <div>
+                <a class="btn btn-primary float-right rounded-pill" href="<?= base_url('admin/v_t_pekerjaan') ?>">Tambah Pekerjaan</a>
+            </div>
+        </div>
+        <div class="card-body">
+            
+    <table id="pekerjaan" class="table table-striped">
         <thead>
             <tr>
                 <th>No</th>
@@ -16,6 +26,8 @@
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
+        </thead>
+        <tbody>
             <?php
                 $no = 0;
                 foreach($pekerjaan as $pek ):
@@ -24,25 +36,28 @@
             <tr>
                 <td><?= $no ?></td>
                 <td><?= $pek->pekerjaan ?></td>
-                <td>
-                    <?php 
-                        $status = $pek->status_pekerjaan;
-                        if($status == 0){
-                            echo "Tidak Aktif";
-                        }elseif($status == 1){
-                            echo "Aktif";
-                        }elseif($status == 2){
-                            echo "Progres";
-                        }
-                    ?>
-                </td>
+                <td><?= $pek->nama_status ?></td>
+                
                 <td>
                     <a class="btn btn-primary" href="<?= base_url("admin/v_e_pekerjaan/" . $pek->id_pekerjaan) ?>">Edit</a> | <a class="btn btn-danger" href="<?= base_url('admin/h_pekerjaan/' . $pek->id_pekerjaan) ?>">Hapus</a>
                 </td>
             </tr>
             <?php endforeach ?>
-        </thead>
+        </tbody>
     </table>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#pekerjaan').DataTable({
+                // "proccessing" : true,
+                // "serverSide" : true,
+                // "ajax" : '<?= base_url('admin/registrasi') ?>'
+            })
+        } );
+    </script>
     
 </body>
 </html>
