@@ -18,7 +18,7 @@
         <div>
         <?php if($level_admin = $this->session->userdata("level") == 0):?>
             <button type="button" class="btn btn-primary float-right rounded-pill" data-toggle="modal" data-target="#modalTambah">Tambah Task</button>
-        <?php endif ?>
+            <?php endif ?>
         </div>
         <br><br>
         <div class="card-body">
@@ -28,28 +28,30 @@
             <tr>
                 <th>No</th>
                 <th>Karyawan</th>
-                <th>Divisi</th>
                 <th>Pekerjaan</th>
+                <?php if($level_admin = $this->session->userdata("level") == 0):?>
+                <th>Divisi</th>
                 <th>Deskripsi</th>
                 <th>Tanggal Penugasan</th>
                 <th>Tanggal Selesai</th>
                 <th>Progress Pekerjaan</th>
-                <?php if($level_admin = $this->session->userdata("level") == 0):?>
+                <th>Detail</th>
                 <th>Aksi</th>
                 <?php endif ?>
             </tr>
             </thead>
             <?php
                 $no = 0;
-                foreach($task as $tas):
+                foreach($taskUserAll as $tas):
                 $no++
             ?>
             <tbody>
             <tr>
                 <td><?= $no ?></td>
                 <td><?= $tas->nama_karyawan ?></td>
-                <td><?= $tas->divisi ?></td>
                 <td><?= $tas->pekerjaan ?></td>
+                <?php if($level_admin = $this->session->userdata("level") == 0):?>
+                <td><?= $tas->divisi ?></td>
                 <td><?= $tas->keterangan ?></td>
                 <td><?= $tas->tgl_penugasan ?></td>
                 <td><?= $tas->tgl_penyelesaian ?></td>
@@ -60,11 +62,11 @@
                         <?php else: ?>
                             <button class='btn btn-danger' disabled>Closed</button>
                         <?php endif ?>
-                <?php if($level_admin = $this->session->userdata("level") == 0):?>
                 <td>
                     <a href="#" id="tampil_edit<?= $tas->id_task ?>" onclick="modalEdit(<?= $tas->id_task ?>)"class="btn btn-primary" data-toggle="modal" data-target="#modalEdit">Edit</a> | <a class="btn btn-danger" href="<?= base_url('admin/h_task/' . $tas->id_task) ?>">Hapus</a>
                 </td>
                 <?php endif ?>
+                <td><a class="btn btn-warning" href="<?= base_url('admin/taskDetail/' . $tas->id_task ) ?>">Detail</a></td>
             </tr>            
         </div>
         <?php endforeach ?>
@@ -81,20 +83,17 @@
         <div class="modal-content">
 
         <!-- Modal Header -->
-        
         <div class="modal-header">
             <h4 class="modal-title">Tambah</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
-                            
+
         <!-- Modal body -->
         <div class="modal-body">
             <form id="form_tambah" action="#" method="post">
                 <!-- Modal body -->
                 <div class='modal-body'>
                     <div class='row'>
-
-                        <input class="form-control" type="text" name="id_registrasi" id="id_registrasi">
 
                         <div class='col-md-12'>
                             <div class="form-group">
@@ -125,7 +124,7 @@
                                 </select>
                             </div>
                         </div>
-                
+                        
                         <div class='col-md-12'>
                             <div class='form-group'>
                                 <label for='id_pekerjaan'>Pekerjaan</label>
@@ -194,9 +193,6 @@
                 <div class='modal-body'>
                     <div class='row'>
 
-                    <input class="form-control" type="text" name="id_registrasi_edit" id="id_registrasi_edit">
-
-
                         <div class='col-md-12'>
                             <div class="form-group">
                                 <label for="id_jabatan_edit">Jabatan</label>
@@ -226,7 +222,6 @@
                                 </select>
                             </div>
                         </div>
-
 
                         <div class='col-md-12'>
                             <div class='form-group'>
@@ -333,8 +328,7 @@ $(document).ready( function () {
                     data : "id_divisi=" + id_divisi,
                     dataType : 'JSON',
                     success : function(data) {
-                        var id_reg = ""
-                        var html = ""
+                        var html = "";
                         var i;
                         for(i =0; i<data.length; i++){
                             html += '<option value="'+ data[i].id_karyawa +'">' + data[i].nama_karyawan + '</option>'
@@ -343,28 +337,6 @@ $(document).ready( function () {
                     }
                 })
             }
-        }),
-        //modal tambah change Karyawan
-        $('#id_karyawan').change(function(){
-        var id_karyawan = $('#id_karyawan').val();
-        if(id_karyawan == "") {
-            var html = '<option value="">-Pilih Karyawan-</option>'
-            $('#id_registrasi').html(html);
-        }else{
-            $.ajax({
-                type : 'POST',
-                url : '<?= base_url('admin/regKar') ?>',
-                dataType : 'JSON',
-                data : "id_karyawan=" + id_karyawan,
-                success : function(data) {
-                    var i;
-                    for(i =0; i<data.length; i++){
-                        var htmlku = data[i].id_registrasi
-                    }
-                    $('#id_registrasi').val(htmlku);
-                }
-            })
-        }
         }),
         //modal tambah change Karyawan
         $('#id_karyawan').change(function(){
@@ -377,7 +349,7 @@ $(document).ready( function () {
             $.ajax({
                 type : 'POST',
                 url : '<?= base_url('admin/tampil_pekerjaan') ?>',
-                dataType : 'JSON',
+                // dataType : 'JSON',
                 success : function(data) {
                     var html = "";
                     var i;
@@ -467,29 +439,6 @@ $(document).ready( function () {
         }else{
             $.ajax({
                 type : 'POST',
-                url : '<?= base_url('admin/regKar') ?>',
-                data : "id_karyawan=" + id_karyawan,
-                dataType : 'JSON',
-                success : function(data) {
-                    var html = "";
-                    var i;
-                    for(i =0; i<data.length; i++){
-                        html = data[i].id_registrasi
-                    }
-                    $('#id_registrasi_edit').val(html);
-                }
-            })
-        }
-        }),
-        $('#id_karyawan_edit').change(function(){
-
-        var id_karyawan = $('#id_karyawan_edit').val();
-        if(id_karyawan == "") {
-            var html = '<option value="">-Pilih Karyawan-</option>'
-            $('#id_karyawan_edit').html(html);
-        }else{
-            $.ajax({
-                type : 'POST',
                 url : '<?= base_url('admin/tampil_pekerjaan') ?>',
                 dataType : 'JSON',
                 success : function(data) {
@@ -506,7 +455,6 @@ $(document).ready( function () {
         $('#edit_task').click(function(){
             var data = $('#form_edit').serialize()
             var id_jabatan = $('#id_jabatan_edit').val()
-            var id_registrasi = $('#id_registrasi_edit').val()
             var id_divisi = $('#id_divisi_edit').val()
             var id_karyawan = $('#id_karyawan_edit').val()
             var id_pekerjaan = $('#id_pekerjaan_edit').val()
@@ -517,7 +465,6 @@ $(document).ready( function () {
                 type : 'POST',
                 url : '<?= base_url('admin/e_task') ?>',
                 data : {
-                    id_registrasi :id_registrasi,
                     id_jabatan :id_jabatan,
                     id_divisi :id_divisi,
                     id_karyawan :id_karyawan,

@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>AdminLTE 3 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <script src="<?= base_url() ?>/assets/jquery.js"></script>
   <!-- <link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> -->
@@ -71,19 +71,32 @@
     <ul class="navbar-nav ml-auto">
       
       <?php $count=$this->db->query("select count(*) as haha from tb_task")->row_array(); ?>
-      <?php if($level_admin = $this->session->userdata("level") == 1):?>
+      <?php $level_admin = $this->session->userdata("level"); ?>
+      <?php if($level_admin  == 1):?>
         <?php 
           $jml_task = count($task); 
-          if($jml_task > 1):
+          if($jml_task > 0):
           ?>
             <li class="mr-3">
-              <a href='<?= base_url('admin/konfir_baca/1') ?>'>
-              <i class="fas fa-bell"></i><?php echo count($task) ?>
+              <!-- <a href='<?= base_url('admin/konfir_baca/1') ?>'></a> -->
+                  <div class="dropdown">
+                    <?php echo count($task) ?>
+                    <div class="fas fa-bell mr-5"  id="dropDownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></div>
+                    <div class="dropdown-menu" aria-labelledby="dropDownNotif">
+                      <?php foreach($task as $tas): ?>
+                        <a class="dropdown-item" href="<?= base_url('admin/taskku/' . $tas->id_task) ?>"><?= $tas->keterangan ?></a>
+                      <?php endforeach ?>
+                        
+                    </div>
+                    <!-- <a class="fas fa-bell" href=""></a> -->
+                  </div>
+            </li>
+              
             </a>
           <?php else: ?>
             <li class="mr-3">
               <div  class="fas fa-bell">
-                <p style="color: black"><?php echo count($task) ?></b>
+                <b style="color: black"><?php echo count($task) ?></b>
               </div>
           <?php endif ?>
       <?php elseif($level_admin = $this->session->userdata("level") == 0): ?>
@@ -207,6 +220,24 @@
                   <p>Profil</p>
                 </a>
               </li>
+
+              <?php $levelku = $this->session->userdata('level'); ?>
+              <?php if($levelku == 0): ?>
+
+              <li class="nav-item">
+                <a href="<?= base_url('admin/aktifitas') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Aktifitas</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a href="<?= base_url('admin/grafik') ?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Grafik</p>
+                </a>
+              </li>
+              <?php endif ?>
             </ul>
           </li>
         </ul>
@@ -264,6 +295,10 @@
           $this->load->view("v_t_pekerjaan");
         }elseif($page == "task"){
           $this->load->view("v_task");
+        }elseif($page == "taskku"){
+          $this->load->view("v_taskku");
+        }elseif($page == "taskUserAll"){
+          $this->load->view("v_taskUserAll");
         }elseif($page == "v_t_task"){
           $this->load->view("v_t_task");
         }elseif($page == "v_e_task"){
@@ -292,12 +327,18 @@
           $this->load->view("v_t_karyawan");
         }elseif($page == "v_e_karyawan"){
           $this->load->view("v_e_karyawan");
+        }elseif($page == "aktifitas"){
+          $this->load->view("v_aktifitas");
+        }elseif($page == "grafik"){
+          $this->load->view("v_grafik");
         }elseif($page == "home"){
           echo "tidak ada yang dikirim";
         }
       ?>
+      <!-- <br> -->
+      
 
-      <!-- <br>
+      <br>
       level : <?= $this->session->userdata('level'); ?>
       <br>
       
@@ -306,8 +347,7 @@
         foreach ($id_login as $id) {
           echo "id_login " . $id->id_registrasi;
         }
-      ?> -->
-
+      ?> 
     
 
       <!-- disini kontennya -->
@@ -330,6 +370,8 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
+
 
 <!-- jQuery -->
 <script src="<?= base_url() ?>/assets/adminlte/plugins/jquery/jquery.min.js"></script>
@@ -364,6 +406,27 @@
 
 <!-- <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> -->
 <script src="<?= base_url() ?>/assets/datatables/media/js/jquery.dataTables.min.js"></script>
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<!-- Bootstrap -->
+<!-- overlayScrollbars -->
+<!-- AdminLTE App -->
+
+<!-- OPTIONAL SCRIPTS -->
+<!-- <script src="dist/js/demo.js"></script> -->
+
+<!-- PAGE PLUGINS -->
+<!-- jQuery Mapael -->
+<!-- <script src="<?= base_url() ?>/assets/adminlte/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+<script src="<?= base_url() ?>/assets/adminlte/plugins/raphael/raphael.min.js"></script>
+<script src="<?= base_url() ?>/assets/adminlte/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+<script src="<?= base_url() ?>/assets/adminlte/plugins/jquery-mapael/maps/usa_states.min.js"></script> -->
+<!-- ChartJS -->
+
+<!-- PAGE SCRIPTS -->
+<script src="<?= base_url() ?>/assets/grafik/grafik.js"></script>
+
 <!--<script src="<?= base_url() ?>/assets/datatables/media/js/dataTables.bootstrap.min.js"></script>-->
 </body>
 </html>

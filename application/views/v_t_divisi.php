@@ -26,7 +26,7 @@
             <select class="form-control" name="id_jabatan" id="id_jabatan">
                 <option value="">-Pilih Jabatan-</option>
                 <?php foreach($id_jabatan as $id_jabatan): ?>
-                    <option value=""><?= $id_jabatan->jabatan ?></option>
+                    <option value="<?= $id_jabatan->id_jabatan ?>"><?= $id_jabatan->jabatan ?></option>
                 <?php endforeach ?>
             </select>
         </div>

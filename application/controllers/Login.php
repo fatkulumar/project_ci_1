@@ -5,7 +5,8 @@
         function __construct()
         {
             parent::__construct();
-            $this->load->model('m_login');
+            $this->load->model('m_admin');
+            $this->load->database();
         }
 
         function index()
@@ -25,7 +26,8 @@
 
             $id_register = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->result();
             // $cek = $this->m_login->cek_login("tb_login", $where)->num_rows();
-            $cek = $this->m_login->cek_login("tb_registrasi", $where)->result();
+            // $cek = $this->m_admin->cek_login("tb_registrasi", $where)->result();
+            $cek = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->result();
             foreach($cek as $ce){
                 $data["level"] = $ce->level;
             }

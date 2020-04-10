@@ -31,7 +31,8 @@
                     $task->id_baca; 
                     $whereku = array(
                         'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
+                        'tb_task.id_baca' => 0,
+                        'tb_task.progress' => 0
                     );
                 }
                 $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
@@ -101,7 +102,7 @@
                 }
                 $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
             }
-
+            $data["gakJelas"] = $this->m_admin->registrasiKaryawan()->result();
             $data["karyawan"] = $this->m_admin->tampil_karyawan()->result();
             $data["page"] = "v_t_registrasi";
             $this->load->view('v_admin', $data);
@@ -161,7 +162,8 @@
                 'nama' => $nama,
                 'ttl' => $ttl,
                 'username' => $username,
-                'password' => $password
+                'password' => $password,
+                'level' => 1
             );
 
             $data_log = array(
@@ -173,7 +175,7 @@
             $this->m_admin->input_registrasi($data, "tb_registrasi");
             $data["id_terakhir"] = $this->db->insert_id(); 
             $id_akhir = $data["id_terakhir"];
-            $this->db->query("INSERT INTO `tb_profil`(`id_registrasi`) VALUES ('$id_akhir')");
+            $this->db->query("INSERT INTO `tb_profil`(`id_registrasi`, `profil`, `nama_profil`, `tpt_lahir`, `tgl_lahir`, `alamat_asal`, `alamat_sekarang`, `hobi`, `id_sts_perkawinan`, `agama`, `foto`) VALUES ('$id_akhir', '', '', '', '', '', '', '', 0x, '', '')");
             redirect('admin/registrasi');
         }
 
@@ -363,7 +365,7 @@
 
         function karyawan()
         {
-            $this->t_aktifitas("karyawan", "tampil karyawan");
+            // $this->t_aktifitas("karyawan", "tampil karyawan");
 
             $ii = $this->session->userdata("id_login");
             foreach($ii as $i) {
@@ -828,8 +830,8 @@
 
         function task()
         {
-            $this->t_aktifitas("task", "tampil task");
-
+            // $this->t_aktifitas("task", "tampil task");
+            
             $level_admin = $this->session->userdata("level");
             if($level_admin == 0) {
                 $data["task"] = $this->m_admin->get_task()->result(); 
@@ -837,10 +839,11 @@
                 $data['jabatan']=$this->db->get('tb_jabatan')->result();  
                 $data["page"] = "task";
 
+
+
                 $this->load->view('v_admin', $data);
 
             }else{
-                // echo "umar"; die();
                 $ii = $this->session->userdata("id_login");
                 foreach($ii as $i) {
                 $data["id_session"] = $i->id_registrasi;
@@ -848,21 +851,87 @@
 
                 $where = array(
                     'tb_task.id_registrasi' => $data["id_session"],
-                    'tb_task.id_baca' => 0
+                    'tb_task.id_baca' => 0,
+                    'tb_task.progress' => 0
                 );
 
-                // $data["task"] = $this->m_admin->tampil_task($where, "tb_task")->result();
+                $data["task"] = $this->m_admin->tampil_task($where, "tb_task")->result();
                 // $data["task"] = $this->m_admin->get_task()->result();
 
-                $data["task"] = $this->db
-                ->join('tb_divisi','tb_divisi.id_divisi=tb_task.id_divisi')
-                ->join('tb_karyawan','tb_karyawan.id_karyawa=tb_task.id_karyawan')
-                ->join('tb_pekerjaan','tb_pekerjaan.id_pekerjaan=tb_task.id_pekerjaan')
-                ->get_where('tb_task',$where)->result();
+                // $data["task"] = $this->db
+                // ->join('tb_divisi','tb_divisi.id_divisi=tb_task.id_divisi')
+                // ->join('tb_karyawan','tb_karyawan.id_karyawa=tb_task.id_karyawan')
+                // ->join('tb_pekerjaan','tb_pekerjaan.id_pekerjaan=tb_task.id_pekerjaan')
+                // ->get_where('tb_task',$where)->result();
+                $wherekuh = array(
+                    'tb_task.id_registrasi' => $data["id_session"]
+                );
+
+                $data["taskUserAll"] = $this->m_admin->tampil_task($wherekuh, "tb_task")->result();
                    
-                $data["page"] = "task";
+                $data["page"] = "taskUserAll";
                 $this->load->view('v_admin', $data);
             }
+        }
+
+        function taskku($id)
+        {
+            $this->t_aktifitas("task", "tampil task");
+            $ii = $this->session->userdata("id_login");
+                foreach($ii as $i) {
+                $data["id_session"] = $i->id_registrasi;
+                }
+
+                $whereku = array(
+                    'tb_task.id_registrasi' => $data["id_session"],
+                    'tb_task.id_baca' => 0,
+                    'tb_task.progress' => 0
+                );
+
+                $this->db->query("UPDATE tb_task SET id_baca = 1 WHERE id_task = '$id'");
+                $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+
+                $where = array(
+                    'tb_task.id_registrasi' => $data["id_session"],
+                    'tb_task.id_baca' => 0,
+                    'tb_task.progress' => 0,
+                    // 'tb_task.id_task' => $id
+                );
+
+                $data["taskku"] = $this->m_admin->tampil_task($where, "tb_task")->result();
+
+                $data["page"] = "taskku";
+                $this->load->view('v_admin', $data);
+        }
+
+        function taskDetail($id)
+        {
+            $this->t_aktifitas("taskDetail", "tampil task detail");
+            $ii = $this->session->userdata("id_login");
+                foreach($ii as $i) {
+                $data["id_session"] = $i->id_registrasi;
+                }
+
+                $where = array(
+                    'tb_task.id_registrasi' => $data["id_session"],
+                    'tb_task.id_baca' => 0,
+                    'tb_task.progress' => 0,
+                    'tb_task.id_task' => $id
+                );
+
+                $data["taskku"] = $this->m_admin->tampil_task($where, "tb_task")->result();
+
+                $whereku = array(
+                    'tb_task.id_registrasi' => $data["id_session"],
+                    'tb_task.id_baca' => 0,
+                    'tb_task.progress' => 0
+                );
+
+                $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                // $this->db->query("UPDATE tb_task SET id_baca = 1 WHERE id_task = '$id'");
+
+                $data["page"] = "taskku";
+                $this->load->view('v_admin', $data);
         }
 
         function v_t_task()
@@ -898,16 +967,33 @@
                 'tb_karyawan.id_divisi' => $id_divisi
             );
             $data=$this->db
+                ->join('tb_registrasi','tb_registrasi.id_karyawan=tb_karyawan.id_karyawa')
                 ->join('tb_divisi','tb_divisi.id_divisi=tb_karyawan.id_divisi')
                 ->get_where('tb_karyawan',$where)->result();
             echo json_encode($data);
 
         }
 
+        function regKar()
+        {
+            $id_karyawan = $this->input->post("id_karyawan");
+            $where = array(
+                'tb_registrasi.id_karyawan' => $id_karyawan
+            );
+
+            // $data = $this->m_admin->regKar("$where", "tb_registrasi");
+            $data=$this->db
+                ->join('tb_karyawan','tb_karyawan.id_karyawa=tb_registrasi.id_karyawan')
+                ->get_where('tb_registrasi',$where)->result();
+            echo json_encode($data);
+            // echo json_encode($data);
+        }
+
         function t_task()
         {
             $this->t_aktifitas("t_task", "tambah proses task");
 
+            $id_registrasi = $this->input->post('id_registrasi');
             $id_jabatan = $this->input->post('id_jabatan');
             $id_divisi = $this->input->post('id_divisi');
             $id_karyawan = $this->input->post('id_karyawan');
@@ -917,6 +1003,7 @@
             $tgl_selesai = $this->input->post('tgl_selesai');
 
             $data = array(
+                'id_registrasi' => $id_registrasi,
                 'id_jabatan' => $id_jabatan,
                 'id_divisi' => $id_divisi,
                 'id_karyawan' => $id_karyawan,
@@ -924,12 +1011,15 @@
                 'keterangan' => $keterangan,
                 'tgl_penugasan' => $tgl_penugasan,
                 'tgl_penyelesaian' => $tgl_selesai,
+                'progress' => 0,
+                'notif_kerja' => 0,
+                'id_baca' => 0
             );
 
             $query = $this->m_admin->input_task($data, 'tb_task');
             
             echo json_encode($query);
-            // redirect('admin/task');
+            // redirect('admin/task');  
             
         }
 
@@ -990,6 +1080,7 @@
 
             $id = $this->input->post('id_task');
             $id_jabatan = $this->input->post('id_jabatan');
+            $id_registrasi = $this->input->post('id_registrasi');
             $id_divisi = $this->input->post('id_divisi');
             $id_karyawan = $this->input->post('id_karyawan');
             $keterangan = $this->input->post('keterangan');
@@ -998,6 +1089,7 @@
 
             $data = array(
                 'id_jabatan' => $id_jabatan,
+                'id_registrasi' => $id_registrasi,
                 'id_divisi' => $id_divisi,
                 'id_karyawan' => $id_karyawan,
                 'keterangan' => $keterangan,
@@ -1520,6 +1612,14 @@
 
         }
 
+        function aktifitas()
+        {
+            $this->t_aktifitas("tampil_aktifitas", "tampil aktifitas");
+            $data["aktifitas"] = $this->m_admin->tampil_aktifitas()->result();
+            $data["page"] = "aktifitas";
+            $this->load->view('v_admin', $data);
+        }
+
         function tampil_karyawan()
         {
             $this->t_aktifitas("tampil_karyawan", "tampil karyawan");
@@ -1548,5 +1648,33 @@
                 ->join('tb_divisi','tb_jabatan.id_divisi=tb_divisi.id_divisi')
                 ->get_where('tb_jabatan',$where)->result();
             echo json_encode($data);
+        }
+
+        function grafik()
+        {
+            // $this->t_aktifitas("grafik", "tampil grafik");
+
+            $ii = $this->session->userdata("id_login");
+            foreach($ii as $i) {
+               $data["id_session"] = $i->id_registrasi;
+            }
+
+            $level_admin = $this->session->userdata("level");
+            if($level_admin === 0){
+                $data["task"] = $this->m_admin->get_task()->result();
+            }else{
+                $data["view_task"] = $this->m_admin->view_task()->result();
+                foreach ($data["view_task"] as $task) {
+                    $task->id_baca; 
+                    $whereku = array(
+                        'tb_task.id_registrasi' => $data["id_session"],
+                        'tb_task.id_baca' => 0
+                    );
+                }
+                $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+            }
+            $data["page"] = "grafik";
+            // $data["sts_pekerjaan"] = $this->m_admin->v_e_sts_pekerjaan($where, "tb_status")->result();
+            $this->load->view('v_admin', $data);
         }
     }

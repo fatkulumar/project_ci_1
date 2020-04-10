@@ -50,6 +50,17 @@
             <input class="form-control" type="text" name="password"  required>
         </div>
         <div>
+
+        <!-- <div class="form-group">
+            <label for="id_karawan">Gak Penting</label>
+            <select class="form-control" name="id_karyawan" id="id_karyawan">
+                <option value="">-Pilih Karyawan-</option>
+                <?php foreach($gakJelas as $ga ): ?>
+                    <option value="<?= $ga->id_karyawa ?>"><?= $ga->id_registrasi ?></option>
+                <?php endforeach ?>
+            </select>
+        </div> -->
+
             <button class="btn btn-primary" type="submit" name="registrasi">Registrasi</button>
         </div>
     </form>

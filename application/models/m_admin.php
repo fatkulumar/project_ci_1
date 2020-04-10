@@ -7,6 +7,11 @@
             $this->load->database();
         }
 
+        function cek_login($table, $where)
+        {
+            return $this->db->get_where($table,$where);
+        }
+
         function hitung_notif($table, $where)
         {
             $this->db->select('*');
@@ -95,6 +100,20 @@
             // return $this->db->get("tb_registrasi");
         }
 
+        function registrasiKaryawan()
+        {
+            $this->db->select('*');
+            $this->db->from('tb_registrasi r');
+            $this->db->join('tb_karyawan k', 'r.id_karyawan = k.id_karyawa');
+            $query = $this->db->get();
+            return $query;
+        }
+
+        function view_registrasi()
+        {
+            return $this->db->get();
+        }
+
         function e_registrasi($where, $table)
         {
             return $this->db->get_where($table,$where);
@@ -134,6 +153,16 @@
             $query = $this->db->get();
             return $query->result();
         }
+
+        // function regKar($where, $table)
+        // {
+        //     $this->db->select('*');
+        //     $this->db->from('tb_registrasi r');
+        //     $this->db->join('tb_karyawan k', 'k.id_karyawa = r.id_karyawan');
+        //     $query = $this->db->get_where($table, $where);
+        //     // $query = $this->db->get();
+        //     return $query->result();
+        // }
 
         function tampil_pekerjaan()
         {
@@ -383,6 +412,11 @@
         {
             $this->db->where($where);
             $this->db->update($table, $data);
+        }
+
+        function tampil_aktifitas()
+        {
+            return $this->db->get("tb_aktifitas");
         }
 
         function tampil_karyawan()
