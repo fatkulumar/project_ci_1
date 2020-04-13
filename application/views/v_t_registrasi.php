@@ -18,11 +18,11 @@
     <form action="<?= base_url('admin/t_registrasi')?>" method="POST">
         <div class="form-group">
             <label for="nip">NIP</label>
-            <input class="form-control" type="number" name="nip"  required>
+            <input class="form-control" type="number" name="nip" id="nip" max="999999999" min="0" required>
         </div>
         <div class="form-group">
             <label for="nik">NIK</label>
-            <input class="form-control" type="text" name="nik"  required>
+            <input class="form-control" type="number" name="nik" id="nik" max="9999999999999999" min="0" required>
         </div>
         <div class="form-group">
             <label for="id_karawan">Karyawan</label>
@@ -32,10 +32,6 @@
                     <option value="<?= $kar->id_karyawa ?>"><?= $kar->nama_karyawan ?></option>
                 <?php endforeach ?>
             </select>
-        </div>
-        <div class="form-group">
-            <label for="nama">Nama</label>
-            <input class="form-control" type="text" name="nama" id="nama"  required>
         </div>
         <div class="form-group">
             <label for="ttl">Tempat, Tanggal Lahir</label>
@@ -50,17 +46,14 @@
             <input class="form-control" type="text" name="password"  required>
         </div>
         <div>
-
-        <!-- <div class="form-group">
-            <label for="id_karawan">Gak Penting</label>
-            <select class="form-control" name="id_karyawan" id="id_karyawan">
-                <option value="">-Pilih Karyawan-</option>
-                <?php foreach($gakJelas as $ga ): ?>
-                    <option value="<?= $ga->id_karyawa ?>"><?= $ga->id_registrasi ?></option>
-                <?php endforeach ?>
+        <div class="form-group">
+            <label for="level">Jenis User</label>
+            <select class="form-control" name="level" id="level" required>
+                <option value="">-Pilih-</option>
+                <option value="1">User</option>
+                <option value="0">Admin</option>
             </select>
-        </div> -->
-
+        </div>
             <button class="btn btn-primary" type="submit" name="registrasi">Registrasi</button>
         </div>
     </form>
@@ -93,6 +86,20 @@
                 });
             })
         })
+
+        $('#nip').keyup(function(){
+            if ($(this).val() > 999999999){
+                alert("Sudah Maksimal");
+                $(this).val('123456789');
+            }
+        });
+
+        $('#nik').keyup(function(){
+            if ($(this).val() > 9999999999999999){
+                alert("Sudah Maksimal");
+                $(this).val('1234567890123456');
+            }
+        });
     
 
     </script>

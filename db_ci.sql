@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Apr 2020 pada 08.03
+-- Waktu pembuatan: 12 Apr 2020 pada 19.17
 -- Versi server: 10.4.8-MariaDB
 -- Versi PHP: 7.3.11
 
@@ -25,17 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_akses_level`
---
-
-CREATE TABLE `tb_akses_level` (
-  `id_akses_level` int(255) NOT NULL,
-  `level` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `tb_aktifitas`
 --
 
@@ -47,6 +36,29 @@ CREATE TABLE `tb_aktifitas` (
   `aktifitas` text NOT NULL,
   `aksi` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_chat`
+--
+
+CREATE TABLE `tb_chat` (
+  `id_chat` int(255) NOT NULL,
+  `id_from_reg` int(255) NOT NULL,
+  `id_to_reg` int(255) NOT NULL,
+  `pesan` text NOT NULL,
+  `status_baca` int(1) NOT NULL,
+  `waktu` varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tb_chat`
+--
+
+INSERT INTO `tb_chat` (`id_chat`, `id_from_reg`, `id_to_reg`, `pesan`, `status_baca`, `waktu`) VALUES
+(1, 10, 2, 'hay boleh kenalan?', 0, '23 Jan 5:37 pm '),
+(2, 2, 10, 'boleh kok..', 0, '23 Jan 7:37 am');
 
 -- --------------------------------------------------------
 
@@ -68,16 +80,8 @@ CREATE TABLE `tb_divisi` (
 
 CREATE TABLE `tb_jabatan` (
   `id_jabatan` int(11) NOT NULL,
-  `id_karyawan` int(255) NOT NULL,
   `jabatan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_jabatan`
---
-
-INSERT INTO `tb_jabatan` (`id_jabatan`, `id_karyawan`, `jabatan`) VALUES
-(6, 0, 'Manager');
 
 -- --------------------------------------------------------
 
@@ -89,8 +93,7 @@ CREATE TABLE `tb_karyawan` (
   `id_karyawa` int(255) NOT NULL,
   `nama_karyawan` varchar(255) NOT NULL,
   `id_jabatan` int(11) NOT NULL,
-  `id_divisi` int(11) NOT NULL,
-  `id_pekerjaan` int(255) NOT NULL
+  `id_divisi` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -135,21 +138,13 @@ CREATE TABLE `tb_profil` (
 CREATE TABLE `tb_registrasi` (
   `id_registrasi` int(255) NOT NULL,
   `id_karyawan` int(255) NOT NULL,
-  `nip` int(18) NOT NULL,
-  `nama` varchar(50) NOT NULL,
+  `nip` int(9) NOT NULL,
   `ttl` varchar(10) NOT NULL,
-  `nik` int(16) NOT NULL,
+  `nik` bigint(16) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `level` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `tb_registrasi`
---
-
-INSERT INTO `tb_registrasi` (`id_registrasi`, `id_karyawan`, `nip`, `nama`, `ttl`, `nik`, `username`, `password`, `level`) VALUES
-(2, 9, 1, 'test', 'test', 1, 'test', 'test', 0);
 
 -- --------------------------------------------------------
 
@@ -173,6 +168,14 @@ CREATE TABLE `tb_sts_kawin` (
   `sts_kawin` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data untuk tabel `tb_sts_kawin`
+--
+
+INSERT INTO `tb_sts_kawin` (`id_sts_kawin`, `sts_kawin`) VALUES
+(1, 'Kawin'),
+(2, 'Belum Kawin');
+
 -- --------------------------------------------------------
 
 --
@@ -190,7 +193,8 @@ CREATE TABLE `tb_task` (
   `id_pekerjaan` int(255) NOT NULL,
   `keterangan` text NOT NULL,
   `progress` int(1) NOT NULL,
-  `notif_kerja` int(1) NOT NULL
+  `notif_kerja` int(1) NOT NULL,
+  `id_baca` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -198,16 +202,16 @@ CREATE TABLE `tb_task` (
 --
 
 --
--- Indeks untuk tabel `tb_akses_level`
---
-ALTER TABLE `tb_akses_level`
-  ADD PRIMARY KEY (`id_akses_level`);
-
---
 -- Indeks untuk tabel `tb_aktifitas`
 --
 ALTER TABLE `tb_aktifitas`
   ADD PRIMARY KEY (`id_aktifitas`);
+
+--
+-- Indeks untuk tabel `tb_chat`
+--
+ALTER TABLE `tb_chat`
+  ADD PRIMARY KEY (`id_chat`);
 
 --
 -- Indeks untuk tabel `tb_divisi`
@@ -268,16 +272,16 @@ ALTER TABLE `tb_task`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_akses_level`
---
-ALTER TABLE `tb_akses_level`
-  MODIFY `id_akses_level` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT untuk tabel `tb_aktifitas`
 --
 ALTER TABLE `tb_aktifitas`
   MODIFY `id_aktifitas` int(255) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `tb_chat`
+--
+ALTER TABLE `tb_chat`
+  MODIFY `id_chat` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_divisi`
@@ -289,13 +293,13 @@ ALTER TABLE `tb_divisi`
 -- AUTO_INCREMENT untuk tabel `tb_jabatan`
 --
 ALTER TABLE `tb_jabatan`
-  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_jabatan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_karyawan`
 --
 ALTER TABLE `tb_karyawan`
-  MODIFY `id_karyawa` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_karyawa` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pekerjaan`
@@ -313,19 +317,19 @@ ALTER TABLE `tb_profil`
 -- AUTO_INCREMENT untuk tabel `tb_registrasi`
 --
 ALTER TABLE `tb_registrasi`
-  MODIFY `id_registrasi` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_registrasi` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_status`
 --
 ALTER TABLE `tb_status`
-  MODIFY `id_status` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_status` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_sts_kawin`
 --
 ALTER TABLE `tb_sts_kawin`
-  MODIFY `id_sts_kawin` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sts_kawin` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_task`

@@ -3,6 +3,9 @@
 	if($ses == "login") {
 		redirect('admin/index');
 	}
+
+	$cek_reg = $this->m_admin->cek_reg()->result();
+		$jml_cek = count($cek_reg);
 	
 ?>
 <!DOCTYPE html>
@@ -30,13 +33,14 @@
 
 </head>
 <body>
-	
+
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="<?= base_url() ?>/assets/login/images/img-01.png" alt="IMG">
 				</div>
+				
 
 				<form class="login100-form validate-form" action="<?= base_url('login/aksi_login') ?>" method="POST">
 					<span class="login100-form-title">
@@ -44,6 +48,17 @@
 							<?php
 								if(isset($error)){
 									echo "Username dan Password Salah!!!";
+								}
+							?>
+						</div>
+						<div>
+							<?php
+								if($jml_cek == 0) {
+									echo '
+										<div class="alert alert-info" role="alert">
+											<b>User Kosong</b>, Login pertama dijadikan <strong>Admin</strong>
+										</div>
+									';
 								}
 							?>
 						</div>

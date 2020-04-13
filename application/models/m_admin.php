@@ -109,6 +109,11 @@
             return $query;
         }
 
+        function cek_reg()
+        {
+            return $this->db->get("tb_registrasi");
+        }
+
         function view_registrasi()
         {
             return $this->db->get();
@@ -197,7 +202,6 @@
             $this->db->from('tb_karyawan k');
             $this->db->join('tb_jabatan j', 'k.id_jabatan = j.id_jabatan', 'left');    
             $this->db->join('tb_divisi d', 'd.id_divisi = k.id_divisi', 'left');
-            $this->db->join('tb_pekerjaan p', 'p.id_pekerjaan = k.id_pekerjaan', 'left');
             $query = $this->db->get();
             return $query;
             // return $this->db->get("tb_karyawan");
@@ -336,6 +340,12 @@
 
         function konfirProgress($id)
         {
+            // echo $id; die();
+            $this->db->query("UPDATE `tb_task` SET `progress`= 2 WHERE id_task = $id");
+        }
+
+        function konfirMasalah($id)
+        {
             $this->db->query("UPDATE `tb_task` SET `progress`= 1 WHERE id_task = $id");
         }
 
@@ -432,5 +442,59 @@
         function getAjaxKaryawan($table,$where)
         {
             return $this->db->get_where($where, $table);
+        }
+
+        function chat($where, $table)
+        {
+            // echo $where; die();
+            $ii = $this->session->userdata("id_login");
+            foreach($ii as $i) {
+               $data["id_session"] = $i->id_registrasi;
+            }
+
+            $this->db->select('*');
+            $this->db->from('tb_chat c');
+            $this->db->join('tb_registrasi r', 'c.id_from_reg = r.id_registrasi', 'left');
+            $this->db->join('tb_karyawan k', 'k.id_karyawa = r.id_karyawan', 'left');
+            // $this->db->group_by('c.id_chat');
+            $this->db->order_by('c.id_chat', 'asc');
+            // $this->db->where($where, $data["id_session"]);
+            $query = $this->db->get();
+            return $query;
+        }
+
+        function tampil_grafik(){
+            $this->db->select('progress, tgl_penyelesaian, COUNT(progress = 1) as total');
+            $this->db->where('progress', 1);
+            $this->db->group_by('tgl_penyelesaian'); 
+            $this->db->order_by('total', 'desc'); 
+            $query = $this->db->get('tb_task');
+            return $query;
+        }
+
+        function laporan()
+        {
+            // $this->db->distinct('tgl_penyelesaian');
+            return $this->db->get("tb_task");
+        }
+
+        function downloadLaporan($where, $table)
+        {
+            return $this->db
+                ->join('tb_divisi','tb_divisi.id_divisi=tb_task.id_divisi')
+                ->join('tb_karyawan','tb_karyawan.id_karyawa=tb_task.id_karyawan')
+                ->join('tb_pekerjaan','tb_pekerjaan.id_pekerjaan=tb_task.id_pekerjaan')
+                ->get_where($table,$where);
+        }
+
+        function downloadLaporanAll()
+        {
+            $this->db->select('*');
+            $this->db->from('tb_task t');
+            $this->db->join('tb_divisi d', 't.id_divisi = d.id_divisi');
+            $this->db->join('tb_karyawan k', 't.id_karyawan = k.id_karyawa');
+            $this->db->join('tb_pekerjaan p', 't.id_pekerjaan = p.id_pekerjaan');
+            $query = $this->db->get("tb_task");
+            return $query;
         }
     }

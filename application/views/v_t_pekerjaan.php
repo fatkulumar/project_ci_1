@@ -21,6 +21,10 @@
             <input class="form-control" type="text" name="pekerjaan"  required>
         </div>
         <div class="form-group">
+            <label for="deskripsi">Deskripsi</label>
+            <textarea class="form-control" name="deskripsi" id="deskripsi" cols="30" rows="10"></textarea>
+        </div>
+        <div class="form-group">
             <select class="form-control" name="status" id="status">
                 <option value="">-Pilih Status-</option>
                 <?php foreach($status as $sta): ?>

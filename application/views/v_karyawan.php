@@ -21,7 +21,6 @@
                 <th>Karyawan</th>
                 <th>Jabatan</th>
                 <th>Divisi</th>
-                <th>Pekerjaan</th>
                 <th>Aksi</th>
             </tr>
         <thead>
@@ -36,7 +35,6 @@
                 <td><?= $jab->nama_karyawan ?></td>
                 <td><?= $jab->jabatan ?></td>
                 <td><?= $jab->divisi ?></td>
-                <td><?= $jab->pekerjaan ?></td>
                 <td>
                     <a class="btn btn-primary" href="<?= base_url("admin/v_e_karyawan/" . $jab->id_karyawa) ?>">Edit</a> | <a class="btn btn-danger" href="<?= base_url('admin/h_karyawan/' . $jab->id_karyawa) ?>">Hapus</a>
                 </td>

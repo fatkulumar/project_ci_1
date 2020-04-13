@@ -38,14 +38,14 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <!-- <div class="form-group">
             <select class="form-control" name="id_pekerjaan" id="id_pekerjaan" required>
                 <option value="">-Pilih Pekerjaan-</option>
                 <?php foreach($id_pekerjaan as $id_pekerjaan):?>
                     <option value="<?= $id_pekerjaan->id_pekerjaan ?>"><?= $id_pekerjaan->pekerjaan ?></option>
                 <?php endforeach ?>
             </select>
-        </div>
+        </div> -->
 
         <div>
             <button class="btn btn-primary" type="submit" name="t_karyawan">Tambah Karyawan</button>

@@ -107,6 +107,7 @@
         <div class="dropdown mr-5">
           <a class="fas fa-cog dropdown-toggle mr-5"  id="dropDownButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
           <div class="dropdown-menu" aria-labelledby="dropDownButton">
+            <a href="<?= base_url('admin/profil') ?>" class="dropdown-item">Profil</a>
             <a href="<?= base_url('login/logout') ?>" class="dropdown-item">Logout</a>
           </div>
         </div>
@@ -157,42 +158,41 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?= base_url('admin/karyawan') ?>" class="nav-link">
+                <a href="<?= base_url('admin/karyawan') ?>" class="<?php if($page == 'karyawan' || $page == 'v_e_karyawan' || $page == 'v_t_karyawan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Karyawan</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="<?= base_url('admin/divisi') ?>" class="nav-link">
+                <a href="<?= base_url('admin/divisi') ?>" class="<?php if($page == 'divisi' || $page == 'v_e_divisi' || $page == 'v_t_divisi'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Divisi</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="<?= base_url('admin/pekerjaan') ?>" class="nav-link">
+                <a href="<?= base_url('admin/pekerjaan') ?>" class="<?php if($page == 'pekerjaan' || $page == 'v_e_pekerjaan' || $page == 'v_t_pekerjaan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pekerjaan</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <!-- <a href="<?= base_url('admin/registrasi') ?>" class="nav-link active"> -->
-                <a href="<?= base_url('admin/registrasi') ?>" class="nav-link">
+                <a href="<?= base_url('admin/registrasi') ?>" class="<?php if($page == 'registrasi' || $page == 'v_e_registrasi' || $page == 'v_t_registrasi'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Registrasi</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?= base_url('admin/jabatan') ?>" class="nav-link">
+                <a href="<?= base_url('admin/jabatan') ?>" class="<?php if($page == 'jabatan' || $page == 'v_e_jabatan' || $page == 'v_t_jabatan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jabatan</p>
                 </a>
               </li>
               
               <li class="nav-item">
-                <a href="<?= base_url('admin/task') ?>" class="nav-link">
+                <a href="<?= base_url('admin/task') ?>" class="<?php if($page == 'task' || $page == 'v_e_task' || $page == 'v_t_task'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Task </p>
                   <?php if($level_admin = $this->session->userdata("level") == 1):?>
@@ -202,22 +202,10 @@
                   <?php endif ?>
                 </a>
               </li>
-              <!-- <li class="nav-item">
-                <a href="<?= base_url('admin/sts_kawin') ?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Status Kawin</p>
-                </a>
-              </li> -->
               <li class="nav-item">
-                <a href="<?= base_url('admin/sts_pekerjaan') ?>" class="nav-link">
+                <a href="<?= base_url('admin/sts_pekerjaan') ?>" class="<?php if($page == 'sts_pekerjaan' || $page == 'v_e_sts_pekerjaan' || $page == 'v_t_sts_pekerjaan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Status Pekerjaan</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= base_url('admin/profil') ?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Profil</p>
                 </a>
               </li>
 
@@ -225,19 +213,26 @@
               <?php if($levelku == 0): ?>
 
               <li class="nav-item">
-                <a href="<?= base_url('admin/aktifitas') ?>" class="nav-link">
+                <a href="<?= base_url('admin/aktifitas') ?>" class="<?php if($page == 'aktifitas'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Aktifitas</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
-                <a href="<?= base_url('admin/grafik') ?>" class="nav-link">
+                <a href="<?= base_url('admin/laporan') ?>" class="<?php if($page == 'laporan' || $page == 'v_e_laporan' || $page == 'v_t_laporan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Grafik</p>
+                  <p>Laporan</p>
                 </a>
               </li>
+
               <?php endif ?>
+              <li class="nav-item">
+                <a href="<?= base_url('admin/chat') ?>" class="<?php if($page == 'chat' || $page == 'v_e_chat' || $page == 'v_t_chat'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Chat</p>
+                </a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -265,10 +260,10 @@
     <section class="content">
 
       <?php
-        if($page == "Jabatan"){
+        if($page == "jabatan"){
           $jabatan = $jabatan;
           $this->load->view("v_jabatan", $jabatan);
-        }elseif($page == "Divisi"){
+        }elseif($page == "divisi"){
           $this->load->view("v_divisi");
         }elseif($page == "v_e_jabatan"){
           $jabatan = $jabatan;
@@ -279,7 +274,7 @@
           $this->load->view("v_e_divisi");
         }elseif($page == "v_t_jabatan"){
           $this->load->view("v_t_jabatan");
-        }elseif($page == "Registrasi"){
+        }elseif($page == "registrasi"){
           $this->load->view("v_registrasi");
         }elseif($page == "v_t_registrasi"){
           $this->load->view("v_t_registrasi");
@@ -331,11 +326,14 @@
           $this->load->view("v_aktifitas");
         }elseif($page == "grafik"){
           $this->load->view("v_grafik");
+        }elseif($page == "chat"){
+          $this->load->view("v_chat");
+        }elseif($page == "laporan"){
+          $this->load->view("v_laporan");
         }elseif($page == "home"){
           echo "tidak ada yang dikirim";
         }
       ?>
-      <!-- <br> -->
       
 
       <br>
@@ -425,7 +423,7 @@
 <!-- ChartJS -->
 
 <!-- PAGE SCRIPTS -->
-<script src="<?= base_url() ?>/assets/grafik/grafik.js"></script>
+<script src="<?= base_url() ?>/assets/grafik/grafik.php"></script>
 
 <!--<script src="<?= base_url() ?>/assets/datatables/media/js/dataTables.bootstrap.min.js"></script>-->
 </body>

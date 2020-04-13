@@ -1,6 +1,5 @@
-<div style="position: relative; float: right; z-index: 999">
-      <div class="row">
-              <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
                 <!-- DIRECT CHAT -->
                 <div class="card direct-chat direct-chat-warning">
                   <div class="card-header">
@@ -22,36 +21,40 @@
                     <!-- Conversations are loaded here -->
                     <div class="direct-chat-messages">
                       <!-- Message. Default to the left -->
+                      <?php foreach($chat as $chating): ?>
                       <div class="direct-chat-msg">
                         <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-left">Alexander Pierce</span>
-                          <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                          <span class="direct-chat-name float-left"><?= $chating->nama_karyawan ?></span>
+                          <span class="direct-chat-timestamp float-right"><?= $chating->waktu ?></span>
                         </div>
                         <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                        <img class="direct-chat-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user1-128x128.jpg" alt="message user image">
                         <!-- /.direct-chat-img -->
                         <div class="direct-chat-text">
-                          Is this template really for free? That's unbelievable!
+                          <?= $chating->pesan ?>
                         </div>
                         <!-- /.direct-chat-text -->
                       </div>
+                      <?php endforeach ?>
                       <!-- /.direct-chat-msg -->
 
                       <!-- Message to the right -->
+                      <!-- <?php foreach($chatBales as $bales): ?>
                       <div class="direct-chat-msg right">
                         <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-right">Sarah Bullock</span>
-                          <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                        </div>
+                          <span class="direct-chat-name float-right"><?= $bales->nama_karyawan ?></span>
+                          <span class="direct-chat-timestamp float-left"><?= $bales->waktu ?></span>
+                        </div> -->
                         <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                        <!-- <img class="direct-chat-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user3-128x128.jpg" alt="message user image"> -->
                         <!-- /.direct-chat-img -->
-                        <div class="direct-chat-text">
-                          You better believe it!
-                        </div>
+                        <!-- <div class="direct-chat-text">
+                          <?= $bales->pesan ?>
+                        </div> -->
                         <!-- /.direct-chat-text -->
-                      </div>
+                      <!-- </div> -->
                       <!-- /.direct-chat-msg -->
+                      <!-- <?php endforeach ?> -->
 
                       <!-- Message. Default to the left -->
                       <div class="direct-chat-msg">
@@ -60,7 +63,7 @@
                           <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
                         </div>
                         <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+                        <img class="direct-chat-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user1-128x128.jpg" alt="message user image">
                         <!-- /.direct-chat-img -->
                         <div class="direct-chat-text">
                           Working with AdminLTE on a great new app! Wanna join?
@@ -76,7 +79,7 @@
                           <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
                         </div>
                         <!-- /.direct-chat-infos -->
-                        <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                        <img class="direct-chat-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user3-128x128.jpg" alt="message user image">
                         <!-- /.direct-chat-img -->
                         <div class="direct-chat-text">
                           I would love to.
@@ -93,7 +96,7 @@
                       <ul class="contacts-list">
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user1-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user1-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -108,7 +111,7 @@
                         <!-- End Contact Item -->
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user7-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user7-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -123,7 +126,7 @@
                         <!-- End Contact Item -->
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user3-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user3-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -138,7 +141,7 @@
                         <!-- End Contact Item -->
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user5-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user5-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -153,7 +156,7 @@
                         <!-- End Contact Item -->
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user6-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user6-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -168,7 +171,7 @@
                         <!-- End Contact Item -->
                         <li>
                           <a href="#">
-                            <img class="contacts-list-img" src="dist/img/user8-128x128.jpg">
+                            <img class="contacts-list-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user8-128x128.jpg">
 
                             <div class="contacts-list-info">
                               <span class="contacts-list-name">
@@ -202,4 +205,75 @@
                 <!--/.direct-chat -->
               </div>
               <!-- /.col -->
-      </div>
+
+              <!-- <div class="col-md-6"> -->
+                <!-- USERS LIST -->
+                <!-- <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Latest Members</h3>
+
+                    <div class="card-tools">
+                      <span class="badge badge-danger">8 New Members</span>
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div> -->
+                  <!-- /.card-header -->
+                  <!-- <div class="card-body p-0">
+                    <ul class="users-list clearfix">
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user1-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Alexander Pierce</a>
+                        <span class="users-list-date">Today</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user8-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Norman</a>
+                        <span class="users-list-date">Yesterday</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user7-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Jane</a>
+                        <span class="users-list-date">12 Jan</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user6-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">John</a>
+                        <span class="users-list-date">12 Jan</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user2-160x160.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Alexander</a>
+                        <span class="users-list-date">13 Jan</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user5-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Sarah</a>
+                        <span class="users-list-date">14 Jan</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user4-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Nora</a>
+                        <span class="users-list-date">15 Jan</span>
+                      </li>
+                      <li>
+                        <img src="<?= base_url() ?>/assets/adminlte/dist/img/user3-128x128.jpg" alt="User Image">
+                        <a class="users-list-name" href="#">Nadia</a>
+                        <span class="users-list-date">15 Jan</span>
+                      </li>
+                    </ul> -->
+                    <!-- /.users-list -->
+                  <!-- </div> -->
+                  <!-- /.card-body -->
+                  <!-- <div class="card-footer text-center">
+                    <a href="javascript::">View All Users</a>
+                  </div> -->
+                  <!-- /.card-footer -->
+                </div>
+                <!--/.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->

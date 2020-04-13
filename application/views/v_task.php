@@ -16,9 +16,9 @@
             <h4 style="font-size: 40px; font-weight: bold; line-height: 1em">Task</h4>
         </div>
         <div>
-        <?php if($level_admin = $this->session->userdata("level") == 0):?>
-            <button type="button" class="btn btn-primary float-right rounded-pill" data-toggle="modal" data-target="#modalTambah">Tambah Task</button>
-        <?php endif ?>
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
+                <button type="button" class="btn btn-primary float-right rounded-pill" data-toggle="modal" data-target="#modalTambah">Tambah Task</button>
+            <?php endif ?>
         </div>
         <br><br>
         <div class="card-body">
@@ -56,9 +56,12 @@
                 <td><?php 
                         $progess = $tas->progress; 
                         if($progess == 0): ?>
-                            <a  class='btn btn-danger' onclick='return confirm("Selesai?, status tidak bisa di kembalikan!")' href='<?= base_url("admin/konfirProgress/" . $tas->id_task) ?>'>On Progress</a>
-                        <?php else: ?>
-                            <button class='btn btn-danger' disabled>Closed</button>
+                            <a class='btn btn-danger' onclick='return confirm("Selesai?, status tidak bisa di kembalikan!")' href='<?= base_url("admin/konfirProgress/progress/" . $tas->id_task) ?>'>Selesai?</a> |
+                            <a class='btn btn-warning' onclick='return confirm("Trouble?, status tidak bisa di kembalikan!")' href='<?= base_url("admin/konfirProgress/masalah/" . $tas->id_task) ?>'>Masalah?</a> 
+                        <?php elseif($progess == 1): ?>
+                            <button class='btn btn-danger' disabled>Trouble</button> | <a class='btn btn-danger' onclick='return confirm("Selesai?, status tidak bisa di kembalikan!")' href='<?= base_url("admin/konfirProgress/progress/" . $tas->id_task) ?>'>Selesai?</a>
+                        <?php elseif($progess == 2): ?>
+                            <button class='btn btn-danger' disabled>Done</button>
                         <?php endif ?>
                 <?php if($level_admin = $this->session->userdata("level") == 0):?>
                 <td>
@@ -70,9 +73,64 @@
         <?php endforeach ?>
         </tbody>
 </table>
-</div>
-</div>
+
+<!-- ======================================laporan===================================== -->
+            <nav class="navbar navbar-expand navbar-white navbar-light">
+                <ul class="navbar-nav mr-3">
+                    <form action="<?= base_url('admin/laporan') ?>" method="post">
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <select class="nav-link" name="tgl_penyelesaian" id="tgl_penyelesaian">
+                                <option value="0">-Semua- </option>
+                                <?php foreach($laporanTglSelesai as $ta): 
+                                    $tgl = $ta->tgl_penyelesaian;
+                                    $tgl_r = date('d F Y', strtotime($tgl));
+                                ?>
+                                    <option value="<?= $ta->tgl_penyelesaian ?>"><?= $tgl_r ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <button class="btn btn-primary" type="submit" name="karyawanLaporan">Laporan Karyawan</button>
+                        </li>
+                    </form>
+                </ul>
+
+                <!-- <ul class="navbar-nav mr-3">
+                    <form action="<?= base_url('admin/laporan') ?>" method="post">
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <select class="nav-link" name="karyawanLaporan" id="karyawanLaporan">
+                                <option value="0">-Pilih Divisi- </option>
+                                <?php foreach($laporanDivisi as $di): ?>
+                                    <option value="<?= $di->id_divisi ?>"><?= $di->divisi ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <button class="btn btn-primary" type="submit" name="divisiLaporan">Laporan Divisi</button>
+                        </li>
+                    </form>
+                </ul>
+
+                <ul class="navbar-nav mr-3">
+                    <form action="<?= base_url('admin/laporan') ?>" method="post">
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <select class="nav-link" name="karyawanLaporan" id="karyawanLaporan">
+                                <option value="">-Status Pekerjaan- </option>
+                                <option value="0">On Progress</option>
+                                <option value="1">Closed</option>
+                            </select>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <button class="btn btn-primary" type="submit" name="karyawanLaporan">Laporan Karyawan</button>
+                        </li>
+                    </form>
+                </ul> -->
+            </nav>             
+<!-- ============================================/laporan=============================================    -->
+            </div>
+        </div>
     </div>
+</div>
 <!-- ========================================================modal batas==================================================== -->
 
 <!-- The Modal -->
@@ -94,7 +152,7 @@
                 <div class='modal-body'>
                     <div class='row'>
 
-                        <input class="form-control" type="text" name="id_registrasi" id="id_registrasi">
+                        <input class="form-control" type="hidden" name="id_registrasi" id="id_registrasi">
 
                         <div class='col-md-12'>
                             <div class="form-group">
@@ -194,7 +252,7 @@
                 <div class='modal-body'>
                     <div class='row'>
 
-                    <input class="form-control" type="text" name="id_registrasi_edit" id="id_registrasi_edit">
+                    <input class="form-control" type="hidden" name="id_registrasi_edit" id="id_registrasi_edit">
 
 
                         <div class='col-md-12'>

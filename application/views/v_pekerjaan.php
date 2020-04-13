@@ -23,6 +23,7 @@
             <tr>
                 <th>No</th>
                 <th>Pekerjaan</th>
+                <th>Deskripsi</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -36,6 +37,7 @@
             <tr>
                 <td><?= $no ?></td>
                 <td><?= $pek->pekerjaan ?></td>
+                <td><?= $pek->deskripsi ?></td>
                 <td><?= $pek->nama_status ?></td>
                 
                 <td>
