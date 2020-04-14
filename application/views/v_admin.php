@@ -136,7 +136,12 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?= base_url() ?>/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <?php
+          $foto = $this->session->userdata('foto');
+          foreach ($foto as $ft):
+        ?> 
+          <img src="<?= base_url() ?>/assets/img/<?= $ft->foto ?>" class="img-circle elevation-2" alt="User Image">
+        <?php endforeach ?>
         </div>
         <div class="info">
           <a href="#" class="d-block"><?= $this->session->userdata("nama") ?></a>
@@ -156,6 +161,7 @@
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?= base_url('admin/karyawan') ?>" class="<?php if($page == 'karyawan' || $page == 'v_e_karyawan' || $page == 'v_t_karyawan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
@@ -163,33 +169,43 @@
                   <p>Karyawan</p>
                 </a>
               </li>
+            <?php endif ?>
 
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
               <li class="nav-item">
                 <a href="<?= base_url('admin/divisi') ?>" class="<?php if($page == 'divisi' || $page == 'v_e_divisi' || $page == 'v_t_divisi'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Divisi</p>
                 </a>
               </li>
+            <?php endif ?>
 
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
               <li class="nav-item">
                 <a href="<?= base_url('admin/pekerjaan') ?>" class="<?php if($page == 'pekerjaan' || $page == 'v_e_pekerjaan' || $page == 'v_t_pekerjaan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pekerjaan</p>
                 </a>
               </li>
+            <?php endif ?>
 
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
               <li class="nav-item">
                 <a href="<?= base_url('admin/registrasi') ?>" class="<?php if($page == 'registrasi' || $page == 'v_e_registrasi' || $page == 'v_t_registrasi'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Registrasi</p>
                 </a>
               </li>
+            <?php endif ?>
+
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
               <li class="nav-item">
                 <a href="<?= base_url('admin/jabatan') ?>" class="<?php if($page == 'jabatan' || $page == 'v_e_jabatan' || $page == 'v_t_jabatan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jabatan</p>
                 </a>
               </li>
+            <?php endif ?>
               
               <li class="nav-item">
                 <a href="<?= base_url('admin/task') ?>" class="<?php if($page == 'task' || $page == 'v_e_task' || $page == 'v_t_task'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
@@ -202,15 +218,18 @@
                   <?php endif ?>
                 </a>
               </li>
+
+            <?php if($level_admin = $this->session->userdata("level") == 0):?>
               <li class="nav-item">
                 <a href="<?= base_url('admin/sts_pekerjaan') ?>" class="<?php if($page == 'sts_pekerjaan' || $page == 'v_e_sts_pekerjaan' || $page == 'v_t_sts_pekerjaan'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Status Pekerjaan</p>
                 </a>
               </li>
+            <?php endif ?>
 
               <?php $levelku = $this->session->userdata('level'); ?>
-              <?php if($levelku == 0): ?>
+            <?php if($levelku == 0): ?>
 
               <li class="nav-item">
                 <a href="<?= base_url('admin/aktifitas') ?>" class="<?php if($page == 'aktifitas'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
@@ -226,7 +245,8 @@
                 </a>
               </li>
 
-              <?php endif ?>
+            <?php endif ?>
+
               <li class="nav-item">
                 <a href="<?= base_url('admin/chat') ?>" class="<?php if($page == 'chat' || $page == 'v_e_chat' || $page == 'v_t_chat'){echo 'nav-link active';}else{echo 'nav-link';} ?>">
                   <i class="far fa-circle nav-icon"></i>
@@ -260,6 +280,7 @@
     <section class="content">
 
       <?php
+        
         if($page == "jabatan"){
           $jabatan = $jabatan;
           $this->load->view("v_jabatan", $jabatan);
@@ -337,9 +358,18 @@
       
 
       <br>
-      level : <?= $this->session->userdata('level'); ?>
-      <br>
+      level : <?= $this->session->userdata('level')."<br>"; 
+      ?>
       
+      <br>
+
+      <?php
+        $foto = $this->session->userdata('foto');
+        foreach ($foto as $ft) {
+          echo "Foto " . $ft->foto;
+        }
+      ?> 
+      <br>
       <?php
         $id_login = $this->session->userdata('id_login');
         foreach ($id_login as $id) {

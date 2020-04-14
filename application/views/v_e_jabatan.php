@@ -1,3 +1,9 @@
+<?php
+    if($level_admin = $this->session->userdata("level") == 1) {
+        redirect('admin');
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

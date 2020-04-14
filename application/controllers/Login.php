@@ -32,11 +32,12 @@
         function aksi_login()
         {
             $username = $this->input->post('username');
-            $password = $this->input->post('password');
+            $psd = $this->input->post('password');
+            $password = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->row('password');
 
             $where = array(
-                'username' => $username,
-                'password' =>$password
+                'username' => $username
+                // 'password' => $password
             );
 
             //cek registrasi == 0
@@ -49,13 +50,15 @@
 
 
             $id_register = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->result();
-            // $cek = $this->m_login->cek_login("tb_login", $where)->num_rows();
             // $cek = $this->m_admin->cek_login("tb_registrasi", $where)->result();
-            $cek = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username'")->result();
+            // $cek = $this->db->query("SELECT * FROM tb_registrasi WHERE username = '$username' AND password = '$password'")->result();
+            $cek = $this->m_login->cek_login($where, "tb_registrasi")->result();
             foreach($cek as $ce){
                 $data["level"] = $ce->level;
             }
-            if($cek){
+            
+            $hash = password_verify($psd,$password);
+            if($cek && $hash){
                 $data_session = array(
                     'nama' => $username,
                     'status' => "login",
@@ -64,10 +67,34 @@
                 );
                 
                 $this->session->set_userdata($data_session);
+               
+                    $id_login = $this->session->userdata('id_login');
+                    foreach ($id_login as $id) {
+                    $idku = $id->id_registrasi;
+                    }
+                print_r($foto = $this->db->query("SELECT foto FROM tb_profil WHERE id_registrasi = '$idku'")->result()); 
+                $fotoku = array(
+                    'foto' => $foto
+                );
+                $this->session->set_userdata($fotoku);
                 $this->t_aktifitas("login","login");
                 redirect(base_url("admin"));
             }else{
-                $this->t_aktifitas("login","login gagal");
+                $uname_karyawan = "Gagal Login";
+                $id_log = 0;
+                $waktu = date("Y-m-d h:i:sa");
+                $aktif = base_url('login/index/'); 
+
+                $data = array(
+                    'uname_aktifitas' => $uname_karyawan,
+                    'id_register_aktifitas' => $id_log,
+                    'waktu_aktifitas' => $waktu,
+                    'aktifitas' => $aktif,
+                    'aksi' => "mau login pertama jadikan admin"
+                );
+
+                $this->m_admin->input_aktifitas($data, 'tb_aktifitas');
+                // $this->t_aktifitas("login","login gagal");
                 $data["error"] = "Username dan Password Salah!!!";
                 $this->load->view("v_index", $data);
             }

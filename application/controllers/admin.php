@@ -26,15 +26,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0,
-                        'tb_task.progress' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -50,6 +55,10 @@
             $this->load->view('v_admin', $data);
         }
 
+        private function hash_password($pass_user) {
+            return password_hash($pass_user, PASSWORD_BCRYPT);
+        }
+
         function registrasi()
         {
             $this->t_aktifitas("registrasi","tampil registrasi");
@@ -63,14 +72,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -92,16 +107,23 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
+
             $data["gakJelas"] = $this->m_admin->registrasiKaryawan()->result();
             $data["karyawan"] = $this->m_admin->tampil_karyawan()->result();
             $data["page"] = "v_t_registrasi";
@@ -121,14 +143,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -152,6 +180,7 @@
             $ttl = $this->input->post('ttl');
             $username = $this->input->post('username');
             $password = $this->input->post('password');
+            $password_hash = $this->hash_password($password);
             $level = $this->input->post('level');
             // $hpassword = password_hash($password, "PASSWORD_DEFAULT");
 
@@ -161,7 +190,7 @@
                 'id_karyawan' => $id_karyawan,
                 'ttl' => $ttl,
                 'username' => $username,
-                'password' => $password,
+                'password' => $password_hash,
                 'level' => $level
             );
 
@@ -230,17 +259,24 @@
             }
 
             $level_admin = $this->session->userdata("level");
+            $level_admin = $this->session->userdata("level");
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -262,14 +298,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -292,14 +334,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -375,14 +423,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -404,14 +458,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
             
@@ -435,14 +495,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -542,14 +608,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -572,14 +644,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -618,14 +696,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
             
@@ -694,14 +778,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -723,14 +813,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -753,14 +849,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -954,14 +1056,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1054,14 +1162,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1153,14 +1267,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1186,14 +1306,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1251,14 +1377,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1457,14 +1589,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1486,14 +1624,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1531,14 +1675,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1672,16 +1822,23 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
+
             $data["page"] = "grafik";
             $data["taskGrafik2"] = $this->m_admin->tampil_grafik()->result();
             $data["taskGrafik"] = $this->db->query("SELECT * FROM tb_task WHERE progress = 1 GROUP BY tgl_penyelesaian")->result();
@@ -1700,14 +1857,20 @@
             if($level_admin === 0){
                 $data["task"] = $this->m_admin->get_task()->result();
             }else{
-                $data["view_task"] = $this->m_admin->view_task()->result();
-                foreach ($data["view_task"] as $task) {
-                    $task->id_baca; 
-                    $whereku = array(
-                        'tb_task.id_registrasi' => $data["id_session"],
-                        'tb_task.id_baca' => 0
-                    );
-                    $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result();
+                $cek = $this->db->query("SELECT * FROM tb_task")->result(); 
+                if($cek == null){
+                    $data["task"] = $this->m_admin->get_task()->result();
+                }else{
+                    $data["view_task"] = $this->m_admin->view_task()->result();
+                    foreach ($data["view_task"] as $task) {
+                        $task->id_baca; 
+                        $whereku = array(
+                            'tb_task.id_registrasi' => $data["id_session"],
+                            'tb_task.id_baca' => 0,
+                            'tb_task.progress' => 0
+                        );
+                        $data["task"] = $this->m_admin->tampil_task($whereku, "tb_task")->result(); 
+                    }
                 }
             }
 
@@ -1724,6 +1887,27 @@
             
             $data["page"] = "chat";
             $this->load->view('v_admin', $data);
+        }
+
+        function t_chat()
+        {
+            $this->t_aktifitas("t_task", "tambah proses task");
+
+            $message = $this->input->post('message');
+            $waktu = $this->input->post('waktu');
+            $id_from_reg = $this->input->post('id_from_reg');
+
+            $data = array(
+                'pesan' => $message,
+                'waktu' => $waktu,
+                'id_from_reg' => $id_from_reg,
+                'posisi'=> 1,
+                'status_baca' => 0
+            );
+
+            $query = $this->m_admin->input_chat($data, 'tb_chat');
+            
+            echo json_encode($query);
         }
 
         function laporan()

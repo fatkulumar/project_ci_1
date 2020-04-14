@@ -456,12 +456,19 @@
             $this->db->from('tb_chat c');
             $this->db->join('tb_registrasi r', 'c.id_from_reg = r.id_registrasi', 'left');
             $this->db->join('tb_karyawan k', 'k.id_karyawa = r.id_karyawan', 'left');
-            // $this->db->group_by('c.id_chat');
-            $this->db->order_by('c.id_chat', 'asc');
+            // $this->db->group_by('c.id_from_reg');
+            // $this->db->order_by('c.id_chat', 'asc');
             // $this->db->where($where, $data["id_session"]);
             $query = $this->db->get();
             return $query;
+            
         }
+
+        function input_chat($data, $table)
+        {
+            $this->db->insert($table, $data);
+        }
+        
 
         function tampil_grafik(){
             $this->db->select('progress, tgl_penyelesaian, COUNT(progress = 1) as total');

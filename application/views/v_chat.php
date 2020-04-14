@@ -19,13 +19,13 @@
                   <!-- /.card-header -->
                   <div class="card-body">
                     <!-- Conversations are loaded here -->
-                    <div class="direct-chat-messages">
+                    <div id="append_chat" class="direct-chat-messages">
                       <!-- Message. Default to the left -->
                       <?php foreach($chat as $chating): ?>
-                      <div class="direct-chat-msg">
+                      <div class="direct-chat-msg <?php if($chating->posisi == 1){echo 'right';} ?>">
                         <div class="direct-chat-infos clearfix">
-                          <span class="direct-chat-name float-left"><?= $chating->nama_karyawan ?></span>
-                          <span class="direct-chat-timestamp float-right"><?= $chating->waktu ?></span>
+                          <span class="direct-chat-name <?php if($chating->posisi == 1){echo 'float-right';}else{echo 'float-left';} ?>"><?= $chating->username ?></span>
+                          <span class="direct-chat-timestamp <?php if($chating->posisi == 1){echo 'float-left';}else{echo 'float-right';} ?>"><?= $chating->waktu ?></span>
                         </div>
                         <!-- /.direct-chat-infos -->
                         <img class="direct-chat-img" src="<?= base_url() ?>/assets/adminlte/dist/img/user1-128x128.jpg" alt="message user image">
@@ -189,13 +189,21 @@
                     </div>
                     <!-- /.direct-chat-pane -->
                   </div>
+                  <?php
+                    $id_login = $this->session->userdata('id_login');
+                    foreach ($id_login as $id) {
+                      $idku = $id->id_registrasi;
+                    }
+                  ?> 
                   <!-- /.card-body -->
                   <div class="card-footer">
-                    <form action="#" method="post">
+                    <form id="form_chat" action="#" method="post">
                       <div class="input-group">
-                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                        <input id="waktu" type="text" value="<?= date('d-F-Y h:i:sa') ?>">
+                        <input id="idku" type="text" value="<?= $idku ?>">
+                        <input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
                         <span class="input-group-append">
-                          <button type="button" class="btn btn-warning">Send</button>
+                          <button type="button" class="btn btn-warning" id="send">Send</button>
                         </span>
                       </div>
                     </form>
@@ -277,3 +285,30 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
+
+            <script>
+              $(document).ready(function(){
+                $('#send').click(function(){
+                    var message = $('#message').val();
+                    var waktu = $('#waktu').val();
+                    var idku = $('#idku').val();
+                        $.ajax({
+                        type : 'POST',
+                        url: '<?= base_url('admin/t_chat') ?>',
+                        data: {
+                          message : message,
+                          waktu : waktu,
+                          id_from_reg : idku
+                        },
+                        success : function(data){
+                          console.log(data[0].pesan)
+                          $('#message').html("")
+                          $('#append_chat').append(`
+                            lorem orererererer
+                          `)
+                            
+                        }
+                    })
+                })
+              })
+            </script>
